@@ -1,3 +1,3 @@
 function myFunction() {
-  var a = "a"
+  var a = "ab"
 }
