@@ -1,5 +1,5 @@
 {
-  "timeZone": "America/Argentina/Buenos_Aires",
+  "timeZone": "America/Sao_Paulo",
   "dependencies": {
   },
   "exceptionLogging": "STACKDRIVER",
