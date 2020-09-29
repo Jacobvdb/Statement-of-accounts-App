@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "module": "none",
+      "noImplicitUseStrict": true,
+      "experimentalDecorators": true,
+      "lib": [ "esnext" ],
+      "target": "ES6",
+      "noImplicitAny": true,
+      "typeRoots" : ["node_modules/@bkper", "node_modules/@types" ]    
+    },
+    "exclude": [
+      "node_modules/",
+      "dist/"
+    ],
+  
+}
