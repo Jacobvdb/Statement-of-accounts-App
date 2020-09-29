@@ -1,6 +1,12 @@
 {
-  "timeZone": "America/Sao_Paulo",
+  "timeZone": "America/Argentina/Buenos_Aires",
   "dependencies": {
+    "libraries": [{
+      "userSymbol": "BkperApp",
+      "libraryId": "1hMJszJGSUVZDB3vmsWrUZfRhY1UWbhS0SQ6Lzl06gm1zhBF3ioTM7mpJ",
+      "version": "63",
+      "developmentMode": true
+    }]
   },
   "exceptionLogging": "STACKDRIVER",
   "runtimeVersion": "V8"
