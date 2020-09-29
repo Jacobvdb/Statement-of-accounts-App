@@ -1,0 +1,31 @@
+# You can override the name from the repository
+# name: New Bkper App
+
+# Set your logo url from public host. Best fit 200x200 px. Use https:// 
+logo: https://static.thenounproject.com/png/1421948-200.png
+#Icon created by Iconchease from Non Project. Please use with right licensing.
+
+
+# Your app menu url. Accepted expressions:
+               # ${book.id} - the current book id
+               # ${book.properties.xxxxx} - any property value from the current book
+               # ${transactions.query} - the current query being executed on transactions list
+               # ${transactions.ids} - the ids of selected transactions, splitted by comma
+               # ${account.id} - the current account being filterd
+               # ${account.properties.xxxxx} - any property value from the current account being filtered
+# Sample:
+menuUrl: https://docs.google.com/spreadsheets/d/1ynzuvDElnz5zLYaMSmANy1t9c4Vv9eKeZ4vXjteGCsY/edit#gid=0 
+
+
+# Override the context menu call to action and popup window size
+
+# menuText: Menu Call to Action
+# menuPopupWidth: 400 #width in pixels
+# menuPopupHeight: 250 #height in pixels
+
+# By default the App will be available to your user, or all users of your G Suite domain.
+# Additionally you can yhitelist users you want this app to show up:
+whitelist: >
+    someemail@somedomain.com
+    anotheremail@somedomain.com
+
