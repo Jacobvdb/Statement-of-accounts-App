@@ -1,4 +1,5 @@
-function myFunction() {
-  var a ="ssss";
 
+function doGet(e) {
+  var params = JSON.stringify(e);
+  return HtmlService.createHtmlOutput(params);
 }
