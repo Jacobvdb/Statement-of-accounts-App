@@ -1,9 +1,8 @@
-# Bkper App Template
+# Statement of Accounts App
 
-Use this template to create personalized apps for you, your team or clients.
+Create a Statement of account for your clients or suppliers on your Bkper books.
 
-![Bkper App Menu](https://storage.googleapis.com/bkper-public/images/bkper-app-menu.png)
 
-See the [documentation](https://bkper.com/docs) to learn more.
+
 
 
