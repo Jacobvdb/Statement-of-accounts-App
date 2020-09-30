@@ -1,14 +1,33 @@
 
 function doGet(e) {
-  var params = JSON.stringify(e);
+  
 
   var bookId = e.parameter.bookId;
   var query = e.parameter.query
+  
+  if (!bookId)(return HtmlService.createHtmlOutput("No Bkper Book found"));
+
 
   var book = BkperApp.getBook(bookId)
   var bookName = book.getName()
 
-  Logger.log(bookName)
+  if (query.match(/account/g)) {
+  
+    // get this accounts properties
+    var tmp  = query.match(':"(.*)"');
+    var accountName = tmp[1];
+     
+      
+    var account = book.getAccount(accountName)
+    var accountType = account.getType();
 
-  return HtmlService.createHtmlOutput(bookName);
+    var accountProperties = account.getProperties()
+  
+
+  return HtmlService.createHtmlOutput(bookName + " " + accountName + " " + accountType);
+}
+
+
+function getInitialBalance(account){
+
 }
