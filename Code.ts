@@ -12,8 +12,23 @@ function doGet(e) {
       // get this accounts properties
       var accountName = extractAccountName(query);
       var account = book.getAccount(accountName);
-      return HtmlService.createHtmlOutput(account.getBalance());
-      //var accountName = tmp[1];
+      var accountType = account.getType;
+      var currentCheckedBalance = account.getCheckedBalance;
+      var currentUncheckedBalance =account.getBalance;
+
+      var transactions = book.getTransactions(query)
+
+      while (transactions.hasNext()) {
+        var transaction = transactions.next();
+        var arr = [];
+        arr.push(transaction.getAmount)
+        
+       }
+
+      return HtmlService.createHtmlOutput(arr);
+
+
+      
   }
   else {
       return HtmlService.createHtmlOutput("Please select an account");
@@ -28,15 +43,9 @@ function doGet(e) {
 
 
 function extractAccountName(query){
-
-var name  = query.match(":'(.*)'");
-var tempName=name[0]  
-return tempName.replace(/^:'|'$/g, '')
-  
-  //var book = BkperApp.getBook("agtzfmJrcGVyLWhyZHITCxIGTGVkZ2VyGICAwLfM_aMKDA")
-  //Logger.log(book.getName())
-  //var account = book.getAccount(accountName.replace(/^:'|'$/g, ''))
-  //Logger.log(account.getCheckedBalance())
+  var name  = query.match(":'(.*)'");
+  var tempName=name[0]  
+  return tempName.replace(/^:'|'$/g, '');
 }
 
 
