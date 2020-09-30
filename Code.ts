@@ -17,12 +17,12 @@ function doGet(e) {
     var tmp  = query.match(':"(.*)"');
     var accountName = tmp[1];
 
-  } else { return HtmlService.createHtmlOutput("Please select an account")}  
+  } else { return HtmlService.createHtmlOutput("Please select an account")};
       
     var account = book.getAccount(accountName)
     var accountType = account.getType();
 
-    var accountProperties = account.getProperties()
+    //var accountProperties = account.getProperties()
   
 
   return HtmlService.createHtmlOutput(bookName + " " + accountName + " " + accountType);
