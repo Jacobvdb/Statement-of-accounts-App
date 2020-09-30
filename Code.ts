@@ -29,6 +29,3 @@ function doGet(e) {
 }
 
 
-function getInitialBalance(account){
-
-}
