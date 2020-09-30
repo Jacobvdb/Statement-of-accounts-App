@@ -13,8 +13,8 @@ scriptId: 1kMP1K9TH5HLHPfV96XL7DmSoPS4PtckETknGJKNVK_4exBpRjP0aBxvB
                # ${account.id} - the current account being filterd
                # ${account.properties.xxxxx} - any property value from the current account being filtered
 # Sample:
-menuUrl: https://script.google.com/macros/s/AKfycbw65OBY4Ia-Mt76KT3j10fJOkjDnp4tzfpQ6id0PveTdEVd560/exec?query=${query}&bookId=${book.id}
-        
+#menuUrl: https://script.google.com/macros/s/AKfycbw65OBY4Ia-Mt76KT3j10fJOkjDnp4tzfpQ6id0PveTdEVd560/exec?query=${query}&bookId=${book.id}
+menuUrl:  https://script.google.com/macros/s/AKfycbw_waqcYCW_zxhD-QVeYpS1vCWz8k_eq6eQiqh1LCY/dev?query=${query}&bookId=${book.id}   
 
 
 # Override the context menu call to action and popup window size
