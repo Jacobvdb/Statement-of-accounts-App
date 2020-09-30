@@ -16,7 +16,8 @@ function doGet(e) {
     // get this accounts properties
     var tmp  = query.match(':"(.*)"');
     var accountName = tmp[1];
-     
+
+  } else { return HtmlService.createHtmlOutput("Please select an account")}  
       
     var account = book.getAccount(accountName)
     var accountType = account.getType();
