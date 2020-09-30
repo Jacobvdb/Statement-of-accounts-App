@@ -5,7 +5,7 @@ function doGet(e) {
   var bookId = e.parameter.bookId;
   var query = e.parameter.query
   
-  if (!bookId)(return HtmlService.createHtmlOutput("No Bkper Book found"));
+  if (!bookId){return HtmlService.createHtmlOutput("No Bkper Book found")};
 
 
   var book = BkperApp.getBook(bookId)
