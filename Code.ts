@@ -12,7 +12,7 @@ function doGet(e) {
       // get this accounts properties
       var accountName = extractAccountName(query);
       var account = book.getAccount(accountName);
-      return HtmlService.createHtmlOutput(account.getBalance);
+      return HtmlService.createHtmlOutput(account.getBalance());
       //var accountName = tmp[1];
   }
   else {
