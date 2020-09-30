@@ -14,7 +14,7 @@ function doGet(e) {
   if (query.match(/account/g)) {
   
     // get this accounts properties
-    var tmp  = query.match(':"(.*)"');
+    var tmp  = query.match(":'(.*)'");
     return HtmlService.createHtmlOutput(tmp)
 
     //var accountName = tmp[1];
