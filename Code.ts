@@ -10,5 +10,5 @@ function doGet(e) {
 
   Logger.log(bookName)
 
-  //return HtmlService.createHtmlOutput("Book: " + bookId +" query: " +query);
+  return HtmlService.createHtmlOutput(bookName);
 }
