@@ -17,6 +17,7 @@ function doGet(e) {
     var transactionDataTable = book.createTransactionsDataTable(query).build();
     var transactionDataTableReverse = transactionDataTable.slice(0).reverse();
     var balancesDataTable = book.createBalancesDataTable(query).build();
+    var finalBalanceValueDate = Utilities.formatDate(new Date(), "GMT", "MM/dd/yyyy")
 
     if (accountType == "LIABILITY") {
       //Logger.log("liability") 
@@ -37,7 +38,9 @@ function doGet(e) {
          //} 
       }
       //Logger.log("Final Balance Value " +  " " + balancesDataTable[0][1])
-      html = html + "<br>Final Balance Value " +  " " + balancesDataTable[0][1]
+      
+      
+      html = html + "<br>Final Balance Value " + book.formatDate(new Date()) +  ": " + book.formatValue(balancesDataTable[0][1])
       
       //var 
       
@@ -46,8 +49,8 @@ function doGet(e) {
       var initialBalanceArr = extractInitialBalance(book, query,accountType ,accountName)
       var initialBlanceValueDate = initialBalanceArr[0]
       var initialBalanceValue = initialBalanceArr[1]
-      
-      Logger.log("b "+ initialBlanceValueDate + " " + initialBalanceValue)
+      var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + ": " + book.formatValue(initialBalanceValue)
+      //Logger.log("b "+ initialBlanceValueDate + " " + initialBalanceValue)
       
       
             } else {
@@ -122,6 +125,7 @@ function extractInitialBalance(book, query, accountType ,accountName){
   
   
   var initialBalanceValueDate = "01/" + firstBlanceValueDate.substring(5,7)  + "/" +firstBlanceValueDate.substring(0,4);
+  initialBalanceValueDate = new Date(initialBalanceValueDate)
   return [initialBalanceValueDate, initialBalanceValue] 
 }
 
