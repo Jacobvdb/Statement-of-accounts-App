@@ -5,8 +5,7 @@ function doGet(e) {
   if (!bookId) {
       var msg ="No Bkper Book found";
       return HtmlService.createHtmlOutput(msg);
-      
-  }
+  } 
   
   var book = BkperApp.getBook(bookId);
   var bookName = book.getName();
@@ -29,24 +28,31 @@ function doGet(e) {
       
       var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + " " + book.formatValue(initialBalanceValue)  + "<br>" ;
       var header = transactionDataTable[0]
-      for (var i = 0, len = header.length; i < len; i++) {
+      for (var i = 0, len = header.length; i < len-1; i++) {
            var column = header[i];
-           var htmlheader = htmlheader + " "+i +" " + column + " " ;
+           var htmlheader = htmlheader + " " + column + " " ;
       }
-      html = html + header.length
+      //html = html + header.length
       html = html + htmlheader +  "<br>" ;
-      html = html + "AAAAAA "+transactionDataTableReverse.length
+     
 
       
-      for (var i = 0, len = transactionDataTableReverse.length; i <= len-2; i++) {
+      for (var i = 0, len = transactionDataTableReverse.length; i < len-3; i++) {
         var item = transactionDataTableReverse[i];
-        Logger.log(i +" "+ transactionDataTableReverse[i])
-        for (var j = 0, len = transactionDataTableReverse[i].length; j < len; j++) {
-          Logger.log(i + " " +j +" " +transactionDataTableReverse[i][j])
-          htmlrow = htmlrow + " " + j + " " + transactionDataTableReverse[i][j]
-        } 
+        //Logger.log(i +" "+ transactionDataTableReverse[i])
         
-        html = html + " "+ i +" " htmlrow + "<br>"
+          for (var j = 0, len = transactionDataTableReverse[i].length; j < len-1; j++) {
+            //Logger.log(i + " " +j +" " +transactionDataTableReverse[i][j])
+            if (j== 0){
+               htmlrow = htmlrow + " "+ j + " "+ book.formatDate(transactionDataTableReverse[i][j])
+            } else if (j == 3 || j == 5){
+              htmlrow = htmlrow + " "+ j + " "+ book.formatValue(transactionDataTableReverse[i][j])
+            } else {
+              htmlrow = htmlrow + " "+ j + " "+ transactionDataTableReverse[i][j]
+            }
+          } 
+        
+        html = html +  htmlrow + "<br>"
         htmlrow = "";
      }
       //Logger.log("Final Balance Value " +  " " + balancesDataTable[0][1])
@@ -88,7 +94,10 @@ function doGet(e) {
       
   }
   else {
-      return HtmlService.createHtmlOutput("Please select an account");
+      //return HtmlService.createHtmlOutput("Please select an account");
+      return HtmlService
+      .createTemplateFromFile('Dialog')
+      .evaluate();
   }
   ;
   var account = book.getAccount(accountName);
