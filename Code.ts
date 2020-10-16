@@ -24,6 +24,8 @@ function doGet(e) {
       var initialBalanceArr = extractInitialBalance(book, query,accountType ,accountName)
       var initialBlanceValueDate = initialBalanceArr[0]
       var initialBalanceValue = initialBalanceArr[1]
+      var htmlheader ="";
+      var htmlrow ="";
       
       var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + " " + book.formatValue(initialBalanceValue)  + "<br>" ;
       var header = transactionDataTable[0]
@@ -37,12 +39,12 @@ function doGet(e) {
          var row = transactionDataTableReverse[i];
          //Logger.log(i +" "+ transactionDataTableReverse[i])
          //html = html + i +" "+ transactionDataTableReverse[i] +"<br>"
-         for (var j = 0, len = row.length; j < len; j++) {
+         for (var j = 0, len = transactionDataTableReverse[i].length; j < len; j++) {
          //  Logger.log(transactionDataTableReverse[i][j])
-             var column = row[j]
-             var htmlrow = htmlrow + column
+             
+             var htmlrow = htmlrow + transactionDataTableReverse[i][j]
          } 
-         html = html +htmlrow + "<br>"
+         html = html + htmlrow + "<br>"
       }
       //Logger.log("Final Balance Value " +  " " + balancesDataTable[0][1])
       
