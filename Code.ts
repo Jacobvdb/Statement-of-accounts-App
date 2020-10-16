@@ -36,8 +36,8 @@ function doGet(e) {
          //  Logger.log(transactionDataTableReverse[i][j])
          //} 
       }
-      Logger.log("Final Balance Value " +  " " + balancesDataTable[0][1])
-      
+      //Logger.log("Final Balance Value " +  " " + balancesDataTable[0][1])
+      html = html + "<br>Final Balance Value " +  " " + balancesDataTable[0][1]
       
       //var 
       
