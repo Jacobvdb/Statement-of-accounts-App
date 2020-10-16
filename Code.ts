@@ -26,17 +26,23 @@ function doGet(e) {
       var initialBalanceValue = initialBalanceArr[1]
       
       var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + " " + book.formatValue(initialBalanceValue)  + "<br>" ;
+      var header = transactionDataTable[0]
+      for (var i = 0, len = header.length; i <= len-2; i++) {
+           var column = header[i];
+           var htmlheader = htmlheader + column + " " ;
+      }
+      html = html + htmlheader + + "<br>" ;
       
-      
-      //Logger.log(" ");
-      //Logger.log(transactionDataTable[0])// header
       for (var i = 0, len = transactionDataTableReverse.length; i <= len-2; i++) {
-         var item = transactionDataTableReverse[i];
+         var row = transactionDataTableReverse[i];
          //Logger.log(i +" "+ transactionDataTableReverse[i])
-         html = html + i +" "+ transactionDataTableReverse[i] +"<br>"
-         //for (var j = 0, len = transactionDataTableReverse[i].length; j < len; j++) {
+         //html = html + i +" "+ transactionDataTableReverse[i] +"<br>"
+         for (var j = 0, len = row.length; j < len; j++) {
          //  Logger.log(transactionDataTableReverse[i][j])
-         //} 
+             var column = row[j]
+             var htmlrow = htmlrow + column
+         } 
+         html = html +htmlrow + "<br>"
       }
       //Logger.log("Final Balance Value " +  " " + balancesDataTable[0][1])
       
@@ -56,9 +62,9 @@ function doGet(e) {
         var item = transactionDataTableReverse[i];
         Logger.log(i +" "+ transactionDataTableReverse[i])
         html = html + i +" "+ transactionDataTableReverse[i] +"<br>"
-        //for (var j = 0, len = transactionDataTableReverse[i].length; j < len; j++) {
-        //  Logger.log(transactionDataTableReverse[i][j])
-        //} 
+        for (var j = 0, len = transactionDataTableReverse[i].length; j < len; j++) {
+          Logger.log(transactionDataTableReverse[i][j])
+        } 
      }
     
 
@@ -134,11 +140,6 @@ function extractInitialBalance(book, query, accountType ,accountName){
         } else {
            
         }
-       
-  
-  
-  //var initialBalanceValueDate = "01/" + firstBlanceValueDate.substring(5,7)  + "/" +firstBlanceValueDate.substring(0,4);
-  //initialBalanceValueDate = new Date(initialBalanceValueDate)
   var initialBalanceValueDate = new Date(firstBlanceValueDate.substring(0,4),firstBlanceValueDate.substring(5,7) , "01")
   return [initialBalanceValueDate, initialBalanceValue] 
 }
