@@ -29,20 +29,25 @@ function doGet(e) {
       
       var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + " " + book.formatValue(initialBalanceValue)  + "<br>" ;
       var header = transactionDataTable[0]
-      for (var i = 0, len = header.length; i <= len-2; i++) {
+      for (var i = 0, len = header.length; i < len; i++) {
            var column = header[i];
-           var htmlheader = htmlheader + column + " " ;
+           var htmlheader = htmlheader + " "+i +" " + column + " " ;
       }
-      html = html + htmlheader + + "<br>" ;
+      html = html + header.length
+      html = html + htmlheader +  "<br>" ;
+      html = html + "AAAAAA "+transactionDataTableReverse.length
+
       
       for (var i = 0, len = transactionDataTableReverse.length; i <= len-2; i++) {
         var item = transactionDataTableReverse[i];
-        //Logger.log(i +" "+ transactionDataTableReverse[i])
+        Logger.log(i +" "+ transactionDataTableReverse[i])
         for (var j = 0, len = transactionDataTableReverse[i].length; j < len; j++) {
           Logger.log(i + " " +j +" " +transactionDataTableReverse[i][j])
-          htmlrow = htmlrow + " " +transactionDataTableReverse[i][j]
+          htmlrow = htmlrow + " " + j + " " + transactionDataTableReverse[i][j]
         } 
-        html = html + htmlrow + "<br>"
+        
+        html = html + " "+ i +" " htmlrow + "<br>"
+        htmlrow = "";
      }
       //Logger.log("Final Balance Value " +  " " + balancesDataTable[0][1])
       
