@@ -25,8 +25,8 @@ function doGet(e) {
       var initialBlanceValueDate = initialBalanceArr[0]
       var initialBalanceValue = initialBalanceArr[1]
       //Logger.log("length " +transactionDataTableReverse.length)
-      var html = "Initial Balance Value " + initialBlanceValueDate + " " + initialBalanceValue
-      Logger.log("Initial Balance Value " + initialBlanceValueDate + " " + initialBalanceValue);
+      var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + " " + book.formatValue(initialBalanceValue)  + "<br>" ;
+      //Logger.log("Initial Balance Value " + initialBlanceValueDate + " " + initialBalanceValue);
       
       Logger.log(" ");
       Logger.log(transactionDataTable[0])// header
@@ -40,7 +40,7 @@ function doGet(e) {
       //Logger.log("Final Balance Value " +  " " + balancesDataTable[0][1])
       
       
-      html = html + "<br>Final Balance Value " + book.formatDate(new Date()) +  ": " + book.formatValue(balancesDataTable[0][1])
+      html = html + "Final Balance Value " + book.formatDate(new Date()) +  ": " + book.formatValue(balancesDataTable[0][1]) + "<br>" ;
       
       //var 
       
@@ -49,8 +49,19 @@ function doGet(e) {
       var initialBalanceArr = extractInitialBalance(book, query,accountType ,accountName)
       var initialBlanceValueDate = initialBalanceArr[0]
       var initialBalanceValue = initialBalanceArr[1]
-      var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + ": " + book.formatValue(initialBalanceValue)
+      var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + ": " + book.formatValue(initialBalanceValue) + "<br>" ;
       //Logger.log("b "+ initialBlanceValueDate + " " + initialBalanceValue)
+      for (var i = 0, len = transactionDataTableReverse.length; i <= len-2; i++) {
+        var item = transactionDataTableReverse[i];
+        Logger.log(i +" "+ transactionDataTableReverse[i])
+        //for (var j = 0, len = transactionDataTableReverse[i].length; j < len; j++) {
+        //  Logger.log(transactionDataTableReverse[i][j])
+        //} 
+     }
+    
+
+
+      html = html + "Final Balance Value " + book.formatDate(new Date()) +  ": " + book.formatValue(balancesDataTable[0][1]) + "<br>" ;
       
       
             } else {
