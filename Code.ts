@@ -20,19 +20,20 @@ function doGet(e) {
     var finalBalanceValueDate = Utilities.formatDate(new Date(), "GMT", "MM/dd/yyyy")
 
     if (accountType == "LIABILITY") {
-      //Logger.log("liability") 
+      
       var initialBalanceArr = extractInitialBalance(book, query,accountType ,accountName)
       var initialBlanceValueDate = initialBalanceArr[0]
       var initialBalanceValue = initialBalanceArr[1]
-      //Logger.log("length " +transactionDataTableReverse.length)
-      var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + " " + book.formatValue(initialBalanceValue)  + "<br>" ;
-      //Logger.log("Initial Balance Value " + initialBlanceValueDate + " " + initialBalanceValue);
       
-      Logger.log(" ");
-      Logger.log(transactionDataTable[0])// header
+      var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + " " + book.formatValue(initialBalanceValue)  + "<br>" ;
+      
+      
+      //Logger.log(" ");
+      //Logger.log(transactionDataTable[0])// header
       for (var i = 0, len = transactionDataTableReverse.length; i <= len-2; i++) {
          var item = transactionDataTableReverse[i];
-         Logger.log(i +" "+ transactionDataTableReverse[i])
+         //Logger.log(i +" "+ transactionDataTableReverse[i])
+         html = html + i +" "+ transactionDataTableReverse[i] +"<br>"
          //for (var j = 0, len = transactionDataTableReverse[i].length; j < len; j++) {
          //  Logger.log(transactionDataTableReverse[i][j])
          //} 
@@ -54,6 +55,7 @@ function doGet(e) {
       for (var i = 0, len = transactionDataTableReverse.length; i <= len-2; i++) {
         var item = transactionDataTableReverse[i];
         Logger.log(i +" "+ transactionDataTableReverse[i])
+        html = html + i +" "+ transactionDataTableReverse[i] +"<br>"
         //for (var j = 0, len = transactionDataTableReverse[i].length; j < len; j++) {
         //  Logger.log(transactionDataTableReverse[i][j])
         //} 
@@ -135,8 +137,9 @@ function extractInitialBalance(book, query, accountType ,accountName){
        
   
   
-  var initialBalanceValueDate = "01/" + firstBlanceValueDate.substring(5,7)  + "/" +firstBlanceValueDate.substring(0,4);
-  initialBalanceValueDate = new Date(initialBalanceValueDate)
+  //var initialBalanceValueDate = "01/" + firstBlanceValueDate.substring(5,7)  + "/" +firstBlanceValueDate.substring(0,4);
+  //initialBalanceValueDate = new Date(initialBalanceValueDate)
+  var initialBalanceValueDate = new Date(firstBlanceValueDate.substring(0,4),firstBlanceValueDate.substring(5,7) , "01")
   return [initialBalanceValueDate, initialBalanceValue] 
 }
 
