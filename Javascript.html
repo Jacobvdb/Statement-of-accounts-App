@@ -1,0 +1,128 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+<script>
+    
+    
+    //
+$(function() 
+  {
+   start();
+//   $('#serverlist').bind('change', bindServerChange);
+//   $('#execbtnId').bind('click', bindExecute); 
+//   $('#btn_new_prof').bind('click', bindNewProfile); 
+  }
+ );
+
+ 
+function start() {
+    var bookId = data.bookid;
+    var query = data.query;
+    if(!bookId) { showError("No bookId."); return }
+    
+    if(!query) { 
+      showError("Please run a query with 'acccount:' to select one Asset or Liability account for your statement.");
+      return;
+      } else if (query.match(/account/g)) {
+        //filter account name out of the query
+        var name  = query.match(":'(.*)'");
+        console.log("name: " +name)
+        var tempName=name[0]  
+        var accountName = tempName.replace(/^:'|'$/g, '');
+        console.log(accountName);
+      
+        google.script.run.withSuccessHandler(showStatementJS)
+        .withFailureHandler(showError)
+        .getStatementDataGS(bookId, query, accountName);
+    } else { 
+     showError("Please run a query with 'acccount:' to select one Asset or Liability account for your statement.") ;
+     return;
+    //console.log("no account")
+    }
+   
+} 
+
+
+
+
+function showStatementJS(arr){
+  var error =arr[0]
+  var bookId =arr[1]
+  var query = arr[2]
+  var accountName = arr[3]
+  var initialBalanceValue = arr[4]
+  var initialBalanceValueDate = arr[5];
+  var finalBalanceValue = arr[6];
+  var finalBalanceValueDate = arr[7];
+  var balancesDataTable = arr[8];
+  var headerArr = arr[9];
+  var transactionsArr = arr[10];
+  
+  var transactionRows = transactionsArr.length + 3;
+  var transactionColumns = transactionsArr[1].length + 1
+  
+ 
+   
+ 
+  //console.log("error: " + error +"bookId: " + bookId + " query: " +  query + " account Name: " +  accountName + " Ibv " +initialBalanceValue+ " Ibvd " +initialBalanceValueDate+ " Fbv " +finalBalanceValue+ " Fbvd " + finalBalanceValueDate) 
+  //var transactionDataTableReverse = transactionDataTable.slice(0).reverse(); 
+  var tableHtml ="<table>";
+  for (var i = 0, len = transactionRows; i < transactionRows; i++) {
+      tableHtml  += "<tr>";
+      for (var j = 0, len = transactionColumns; j < transactionColumns; j++){
+        tableHtml  += "<td style='border:solid 1px green'>";
+      // initial Balance
+      if (i==0){
+        if (j==3) {tableHtml  += "Opening Balance on:" }
+        if (j==4) {tableHtml  += initialBalanceValueDate }
+        if (j==5){ tableHtml  += initialBalanceValue }
+      } else if (i == transactionRows-1){
+        if (j==3) {tableHtml  += "Final Balance on:" }
+        if (j==4) {tableHtml  += finalBalanceValueDate }
+        if (j==5){ tableHtml  += finalBalanceValue }
+      
+      } else if (i ==1) {
+        if (j==0) {tableHtml  += headerArr[j] }
+        if (j==1) {tableHtml  += headerArr[j] }
+        if (j==2) {tableHtml  += headerArr[j] }
+        if (j==3) {tableHtml  += headerArr[j] }
+        if (j==4){ tableHtml  += headerArr[j]  }
+        if (j==5){ tableHtml  += headerArr[j]  } 
+      } else {
+         if (j < 6) {tableHtml +=  transactionsArr[i-2][j]}
+      }
+      
+      
+      
+      tableHtml  += "<td>"
+  //console.log(i +" "+ j)
+      }
+      tableHtml  += "</tr>"
+  }
+ tableHtml +="</table>"
+  $("#divTable").append(tableHtml);
+
+   
+}
+
+
+
+function showError(error) 
+{
+    window.alert(error);
+}
+
+function isEmpty(string) 
+{
+              if(!string)             return true;         
+              if(string == '')        return true;
+              if(string === false)    return true; 
+              if(string === null)     return true; 
+              if(string == undefined) return true;
+              string = string+' '; // check for a bunch of whitespace
+              if('' == (string.replace(/^\s\s*/, '').replace(/\s\s*$/, ''))) return true;       
+              return false;        
+}
+</script>
+

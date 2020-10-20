@@ -1,184 +1,125 @@
 // Compiled using ts2gas 3.6.3 (TypeScript 3.9.7)
+// reference for this solution
+// https://stackoverflow.com/questions/30033459/how-to-pass-a-parameter-to-html/38314034#38314034
 function doGet(e) {
   var bookId = e.parameter.bookId;
   var query = e.parameter.query;
-
-  var htmlOutput = HtmlService.createHtmlOutputFromFile('Dialog')
-  .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-  .setTitle('Statement of Account');
-
-// data can be any (serializable) javascript object.
-// if your data is a native value (like a single number) pass an object like {num:myNumber}
-var data = { first: bookId, last: query };
-// appendDataToHtmlOutput modifies the html and returns the same htmlOutput object
-return appendDataToHtmlOutput(data, htmlOutput);
+  var htmlTemplate = HtmlService.createTemplateFromFile('Dialog');
+  htmlTemplate.dataFromServerTemplate = { bookid: bookId, query: query };
+  var htmlOutput = htmlTemplate.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME)
+      .setTitle('Test Statement of Account');
+  return htmlOutput;
 }
 
 
-function appendDataToHtmlOutput(data, htmlOutput, idData) {
-  if (!idData)
-      idData = "mydata_htmlservice";
+function getStatementDataGS(bookId, query, accountName){
+var book = BkperApp.getBook(bookId);
+var account = book.getAccount(accountName);
+var accountType = account.getType();
+var error= "";
 
-  // data is encoded after stringifying to guarantee a safe string that will never conflict with the html.
-  // downside: increases the storage size by about 30%. If that is a concern (when passing huge objects) you may use base94
-  // or even base128 encoding but that requires more code and can have issues, see http://stackoverflow.com/questions/6008047/why-dont-people-use-base128
-  var strAppend = "<div id='" + idData + "' style='display:none;'>" + Utilities.base64Encode(JSON.stringify(data)) + "</div>";
-  return htmlOutput.append(strAppend);
-}
-
- // if (!bookId) {
- //     var msg ="No Bkper Book found";
- //     return HtmlService.createHtmlOutput(msg);
- // } 
+Logger.log("ok 1")
   
- function getStatement(bookId, query){
-  var book = BkperApp.getBook(bookId);
-  var bookName = book.getName();
-  if (query.match(/account/g)) {
-    var accountName = extractAccountName(query);
-    var account = book.getAccount(accountName);
-    var accountType = account.getType();
-    var transactionDataTable = book.createTransactionsDataTable(query).build();
-    var transactionDataTableReverse = transactionDataTable.slice(0).reverse();
-    var balancesDataTable = book.createBalancesDataTable(query).build();
-    var finalBalanceValueDate = Utilities.formatDate(new Date(), "GMT", "MM/dd/yyyy")
+var transactionDataTable = book.createTransactionsDataTable(query).build();
+var transactionDataTableReverse = transactionDataTable.slice(0).reverse();
+var balancesDataTable = book.createBalancesDataTable(query).build();
 
-    if (accountType == "LIABILITY") {
-      
-      var initialBalanceArr = extractInitialBalance(book, query,accountType ,accountName)
-      var initialBlanceValueDate = initialBalanceArr[0]
-      var initialBalanceValue = initialBalanceArr[1]
-      var htmlheader ="";
-      var htmlrow ="";
-      
-      var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + " " + book.formatValue(initialBalanceValue)  + "<br>" ;
-      var header = transactionDataTable[0]
-      for (var i = 0, len = header.length; i < len-1; i++) {
-           var column = header[i];
-           var htmlheader = htmlheader + " " + column + " " ;
-      }
-      //html = html + header.length
-      html = html + htmlheader +  "<br>" ;
-     
+var initialBalanceArr = extractInitialBalance(book, query,accountType ,accountName)
+var initialBalanceValue = initialBalanceArr[0]
+var initialBalanceValueDate = book.formatDate(initialBalanceArr[1])
 
-      
-      for (var i = 0, len = transactionDataTableReverse.length; i < len-3; i++) {
-        var item = transactionDataTableReverse[i];
-        //Logger.log(i +" "+ transactionDataTableReverse[i])
+ var finalBalanceValueDate = new Date();
+ var finalBalanceValueDate = book.formatDate(finalBalanceValueDate) 
+ var finalBalanceValue = balancesDataTable[0][1]
+    //Logger.log("Final Balance Value " +  
+ Logger.log( "aqui") 
+ 
+ // table header   
+ var header = transactionDataTable[0]
+ var headerArr = [];
+ for (var i = 0, len = header.length; i <= len-1; i++) {
+      var column = header[i];
+      headerArr.push(column) ;
+ }   
+
+// transactions
+var transactionsArr = new Array;
+for (var i = 0, len = transactionDataTableReverse.length; i <= len-4; i++) {
+       transactionsArr.push( [] );
+       for (var j = 0, len = transactionDataTableReverse[i].length; j < len-1; j++) {
+       if (j== 0){
+             var postDate = book.formatDate(transactionDataTableReverse[i][j])
+            transactionsArr[i].push(postDate)
+          } else if (j == 3 || j == 5){
+            transactionsArr[i].push( book.formatValue(transactionDataTableReverse[i][j]))
+          } else {
+            transactionsArr[i].push(transactionDataTableReverse[i][j])
+          }
         
-          for (var j = 0, len = transactionDataTableReverse[i].length; j < len-1; j++) {
-            //Logger.log(i + " " +j +" " +transactionDataTableReverse[i][j])
-            if (j== 0){
-               htmlrow = htmlrow + " "+ j + " "+ book.formatDate(transactionDataTableReverse[i][j])
-            } else if (j == 3 || j == 5){
-              htmlrow = htmlrow + " "+ j + " "+ book.formatValue(transactionDataTableReverse[i][j])
-            } else {
-              htmlrow = htmlrow + " "+ j + " "+ transactionDataTableReverse[i][j]
-            }
-          } 
-        
-        html = html +  htmlrow + "<br>"
-        htmlrow = "";
-     }
-      //Logger.log("Final Balance Value " +  " " + balancesDataTable[0][1])
-      
-      
-      html = html + "Final Balance Value " + book.formatDate(new Date()) +  ": " + book.formatValue(balancesDataTable[0][1]) + "<br>" ;
-      
-      //var 
-      
-      } else if (accountType == "ASSET") {
-      Logger.log("asset")
-      var initialBalanceArr = extractInitialBalance(book, query,accountType ,accountName)
-      var initialBlanceValueDate = initialBalanceArr[0]
-      var initialBalanceValue = initialBalanceArr[1]
-      var html = "Initial Balance Value " + book.formatDate(initialBlanceValueDate) + ": " + book.formatValue(initialBalanceValue) + "<br>" ;
-      //Logger.log("b "+ initialBlanceValueDate + " " + initialBalanceValue)
-      for (var i = 0, len = transactionDataTableReverse.length; i <= len-2; i++) {
-        var item = transactionDataTableReverse[i];
-        Logger.log(i +" "+ transactionDataTableReverse[i])
-        html = html + i +" "+ transactionDataTableReverse[i] +"<br>"
-        for (var j = 0, len = transactionDataTableReverse[i].length; j < len; j++) {
-          Logger.log(transactionDataTableReverse[i][j])
-        } 
-     }
+       } 
+             }
     
+Logger.log("arr " + transactionsArr)
+if (accountType == "LIABILITY") {
 
+} else if (accountType == "ASSET"  ) {
 
-      html = html + "Final Balance Value " + book.formatDate(new Date()) +  ": " + book.formatValue(balancesDataTable[0][1]) + "<br>" ;
-      
-      
-            } else {
-     //   Logger.log("This App only generates Statements of accounts for Asset or Liability accounts");
-        return HtmlService.createHtmlOutput("This App only generates Statements of accounts for Asset or Liability accounts");
-      }
-      
-      
+  
+} else {
+   var error = "This is an " + accountType +  ", please choose one Asset or Liability account, to create a Statments of account."     
 
+}
 
-      
-  }
-  else {
-      return HtmlService.createHtmlOutput("Please select an account");
-      
-  }
-  ;
-  var account = book.getAccount(accountName);
-  var accountType = account.getType();
-  //var accountProperties = account.getProperties()
-  return HtmlService.createHtmlOutput(html);
-  //return HtmlService.createTemplateFromFile('Dialog').evaluate(html);
+return [error, bookId, query, accountName, initialBalanceValue, initialBalanceValueDate, finalBalanceValue,finalBalanceValueDate, balancesDataTable, headerArr, transactionsArr]
 }
 
 
 
-
-function extractAccountName(query){
-  var name  = query.match(":'(.*)'");
-  var tempName=name[0]  
-  return tempName.replace(/^:'|'$/g, '');
-}
 
 
 function extractInitialBalance(book, query, accountType ,accountName){
-  var transactions = book.getTransactions(query)
-  
-  while (transactions.hasNext()) {
-        var transaction = transactions.next();
-        var firstBalanceValue = transaction.getAccountBalance();
-        var firstAmount =transaction.getAmount() ;
-        var firstBlanceValueDate = transaction.getDate();
-        
-       //Logger.log("Amount: " + transaction.getAmount() + " " + transaction.getAccountBalance() + " "+ transaction.getDate() + " "+ transaction.getDescription() + "type: "+  accountType + ""+ transaction.getCreditAccountName())
-        
-        
-  }  
-     if(accountType == "LIABILITY"){
-        
-          if( transaction.getCreditAccountName() == accountName){
-          // credit account increases
-          
-          var initialBalanceValue = (firstBalanceValue * 1) - (firstAmount * 1)
-          } else {
-          // credit account decreases
-          var initialBalanceValue = (firstBalanceValue * 1) + (firstAmount * 1)
-          }
-        
-        
-        } else if (accountType == "ASSET") {
-          if( transaction.getCreditAccountName() == accountName){
-         // Debit account decreases
-           var initialBalanceValue = (firstBalanceValue * 1) + (firstAmount * 1)
-          } else {
-          // debit account increases
-            var initialBalanceValue = (firstBalanceValue * 1) - (firstAmount * 1)
-          }
-        
-        
-        } else {
-           
-        }
-  var initialBalanceValueDate = new Date(firstBlanceValueDate.substring(0,4),firstBlanceValueDate.substring(5,7) , "01")
-  return [initialBalanceValueDate, initialBalanceValue] 
-}
+var transactions = book.getTransactions(query)
 
+while (transactions.hasNext()) {
+      var transaction = transactions.next();
+      var firstBalanceValue = transaction.getAccountBalance();
+      var firstAmount =transaction.getAmount() ;
+      var firstBlanceValueDate = transaction.getDate();
+      
+     //Logger.log("Amount: " + transaction.getAmount() + " " + transaction.getAccountBalance() + " "+ transaction.getDate() + " "+ transaction.getDescription() + "type: "+  accountType + ""+ transaction.getCreditAccountName())
+      
+      
+}  
+   if(accountType == "LIABILITY"){
+      
+        if( transaction.getCreditAccountName() == accountName){
+        // credit account increases
+        
+        var initialBalanceValue = (firstBalanceValue * 1) - (firstAmount * 1)
+        } else {
+        // credit account decreases
+        var initialBalanceValue = (firstBalanceValue * 1) + (firstAmount * 1)
+        }
+      
+      
+      } else if (accountType == "ASSET") {
+        if( transaction.getCreditAccountName() == accountName){
+       // Debit account decreases
+         var initialBalanceValue = (firstBalanceValue * 1) + (firstAmount * 1)
+        } else {
+        // debit account increases
+          var initialBalanceValue = (firstBalanceValue * 1) - (firstAmount * 1)
+        }
+      
+      
+      } else {
+         
+      }
+     
+
+
+// initialBalanceValueDate = "01/" + firstBlanceValueDate.substring(5,7)  + "/" +firstBlanceValueDate.substring(0,4);
+var initialBalanceValueDate = new Date(firstBlanceValueDate.substring(0,4),firstBlanceValueDate.substring(5,7) , "01")
+Logger.log( "bla bla " + initialBalanceValueDate)
+return [initialBalanceValue, initialBalanceValueDate ] 
+}

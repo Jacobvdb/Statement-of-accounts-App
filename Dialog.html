@@ -2,36 +2,35 @@
 <html>
   <head>
     <base target="_top">
+    
+    <?!= HtmlService.createHtmlOutputFromFile('Style').getContent(); ?>
   </head>
   <script>
-    /**
-    * getDataFromHtml
-    *
-    * Inputs
-    * idData: optional. id for the data element. defaults to "mydata_htmlservice"
-    *
-    * Returns
-    * The stored data object
-    */
-    function getDataFromHtml(idData) {
-        if (!idData)
-            idData = "mydata_htmlservice";
-        var dataEncoded = document.getElementById(idData).innerHTML;
-        var data = JSON.parse(atob(dataEncoded));
-        return data;
-    }
-    // sample usage of getDataFromHtml
-    function initialize() {
-        var data = getDataFromHtml();
-        document.getElementById("myTitle").innerText = data.first + " - " + data.last;
-        //or use jquery:  $("#myTitle").text(data.first + " - " + data.last);
-    }
-    // use onload or use jquery to call your initialization after the document loads
-    window.onload = initialize;
-</script>
-<html>
-<body>
-    <H2 id="myTitle"></H2>
-</body>
-</html>
+    var data = <?!= JSON.stringify(dataFromServerTemplate) ?>; 
+    </script>
 
+
+
+<body>
+<br> 
+<br>
+   <div id="logo" class="missing">
+   property: book.statement_logo
+   </div>
+   <br>
+   <br>
+   To:
+   <div id="destination">
+   
+   </div> 
+
+    <div id="divTable">
+    
+    </div>
+    
+   
+    
+</body>
+<?!= HtmlService.createHtmlOutputFromFile('Javascript').getContent(); ?>
+
+</html>
