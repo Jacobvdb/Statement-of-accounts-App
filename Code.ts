@@ -40,6 +40,7 @@ function getStatementDataGS(bookId, query, accountName){
         headerArr.push(column) ;
    }   
   
+  Logger.log(accountType + " number of rows:" + transactionDataTableReverse.length)
   // transactions table
   var transactionsArr = new Array;
   for (var i = 0, len = transactionDataTableReverse.length; i <= len-4; i++) {
@@ -55,7 +56,7 @@ function getStatementDataGS(bookId, query, accountName){
             }
           
          } 
-               }
+  }
       
   if (accountType == "LIABILITY") {
   
