@@ -30,4 +30,27 @@ whitelist: >
     anotheremail@somedomain.com
 
 
+properties: 
+    book:
+      keys: >   
+            statement_city
+            statement_logo
+            sttmnt_origin_1
+            sttmnt_origin_2
+            sttmnt_origin_3
+            sttmnt_origin_4
+            sttmnt_sign_1
+            sttmnt_sign_2
+            sttmnt_sign_3
+            sttmnt_sign_4 
+    
+    account:
+        keys: >
+            sttmnt_des_1
+            sttmnt_des_2
+            sttmnt_des_3
+            sttmnt_des_4
+            sttmnt_official_name
+
+
 #Icon created by Iconchease from Non Project. Please use with right licensing.
