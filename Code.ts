@@ -7,7 +7,7 @@ function doGet(e) {
   var htmlTemplate = HtmlService.createTemplateFromFile('Dialog');
   htmlTemplate.dataFromServerTemplate = { bookid: bookId, query: query };
   var htmlOutput = htmlTemplate.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME)
-      .setTitle('Test Statement of Account');
+      .setTitle('Generate Statement of Account');
   return htmlOutput;
 }
 
@@ -18,7 +18,7 @@ var account = book.getAccount(accountName);
 var accountType = account.getType();
 var error= "";
 
-Logger.log("ok 1")
+
   
 var transactionDataTable = book.createTransactionsDataTable(query).build();
 var transactionDataTableReverse = transactionDataTable.slice(0).reverse();
@@ -31,8 +31,8 @@ var initialBalanceValueDate = book.formatDate(initialBalanceArr[1])
  var finalBalanceValueDate = new Date();
  var finalBalanceValueDate = book.formatDate(finalBalanceValueDate) 
  var finalBalanceValue = balancesDataTable[0][1]
-    //Logger.log("Final Balance Value " +  
- Logger.log( "aqui") 
+   
+ 
  
  // table header   
  var header = transactionDataTable[0]
@@ -59,7 +59,7 @@ for (var i = 0, len = transactionDataTableReverse.length; i <= len-4; i++) {
        } 
              }
     
-Logger.log("arr " + transactionsArr)
+//Logger.log("arr " + transactionsArr)
 if (accountType == "LIABILITY") {
 
 } else if (accountType == "ASSET"  ) {
