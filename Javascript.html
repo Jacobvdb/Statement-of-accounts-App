@@ -3,15 +3,12 @@
 
 
 <script>
-    
-    
-    //
 $(function() 
   {
    start();
-//   $('#serverlist').bind('change', bindServerChange);
-//   $('#execbtnId').bind('click', bindExecute); 
-//   $('#btn_new_prof').bind('click', bindNewProfile); 
+   $('#downloadButton').bind('click', downloadPdf);
+   $('#cancelButton').bind('click', closeDialog);
+  
   }
  );
 
@@ -38,7 +35,7 @@ function start() {
     } else { 
      showError("Please run a query with 'acccount:' to select one Asset or Liability account for your statement.") ;
      return;
-    
+    //console.log("no account")
     }
    
 } 
@@ -58,12 +55,134 @@ function showStatementJS(arr){
   var balancesDataTable = arr[8];
   var headerArr = arr[9];
   var transactionsArr = arr[10];
+  var bookProperties = arr[11];
+  var accountProperties = arr[12];
+  var b64 = arr[13];
   
   var transactionRows = transactionsArr.length + 3;
   var transactionColumns = transactionsArr[1].length + 1
   
+  // Logo
+  if (bookProperties.statement_logo) {
+     $("#logo").html("") ; 
+     $("#logo").html("<img height='100px' src='data:" + b64 + "'>");
+     $("#logo").removeClass("missing")
+  }
+
+   // The statement giver
+   var clean= false;
+   if (bookProperties.sttmnt_origin_1) {
+     $("#origin_1").html("") ; 
+     $("#origin_1").html(bookProperties.sttmnt_origin_1 + " ")   ;
+     $("#origin_1").removeClass("missing")
+     var clean = true;
+  } 
   
- var tableHtml ="<table>";
+   if (bookProperties.sttmnt_origin_2) {
+     $("#origin_2").html("") ; 
+     $("#origin_2").html( bookProperties.sttmnt_origin_2 + " ")   ;
+     $("#origin_2").removeClass("missing")
+     var clean = true;
+  } else {
+   if (clean) {$("#origin_2").remove()}
+  }
+  
+   if (bookProperties.sttmnt_origin_3) {
+     $("#origin_3").html("") ; 
+     $("#origin_3").html( bookProperties.sttmnt_origin_3 + " ")   ;
+     $("#origin_3").removeClass("missing")
+     var clean = true;
+  }else {
+   if (clean) {$("#origin_3").remove()}
+  }
+  
+   if (bookProperties.sttmnt_origin_4) {
+     $("#origin_4").html("") ; 
+     $("#origin_4").html( bookProperties.sttmnt_origin_4 + " ")   ;
+     $("#origin_4").removeClass("missing")
+     var clean = true;
+  }else {
+   if (clean) {$("#origin_4").remove()}
+  }
+  
+   if (bookProperties.sttmnt_origin_5) {
+     $("#origin_5").html("") ; 
+     $("#origin_5").html( bookProperties.sttmnt_origin_5 + " ")   ;
+     $("#origin_5").removeClass("missing")
+     var clean = true;
+  }else {
+   if (clean) {$("#origin_5").remove()}
+  } 
+
+
+  // city and date of statement
+  if (bookProperties.statement_city) {
+     $("#location").html("") ; 
+     $("#location").html(bookProperties.statement_city + ", ")   ;
+     $("#location").removeClass("missing")
+  }
+  
+  if(finalBalanceValueDate){
+     $("#statementDate").html("");
+     $("#statementDate").html(finalBalanceValueDate);
+  }
+  
+ 
+   // the destination for this statement
+   clean= false;
+   if (accountProperties.sttmnt_des_1) {
+     $("#destination_1").html("") ; 
+     $("#destination_1").html(accountProperties.sttmnt_des_1 + " ")   ;
+     $("#destination_1").removeClass("missing")
+     var clean = true;
+  } 
+  
+   if (accountProperties.sttmnt_des_2) {
+     $("#destination_2").html("") ; 
+     $("#destination_2").html( accountProperties.sttmnt_des_2 + " ")   ;
+     $("#destination_2").removeClass("missing")
+     var clean = true;
+  } else {
+   if (clean) {$("#destination_2").remove()}
+  }
+  
+   if (accountProperties.sttmnt_des_3) {
+     $("#destination_3").html("") ; 
+     $("#destination_3").html( accountProperties.sttmnt_des_3 + " ")   ;
+     $("#destination_3").removeClass("missing")
+     var clean = true;
+  }else {
+   if (clean) {$("#destination_3").remove()}
+  }
+  
+   if (accountProperties.sttmnt_des_4) {
+     $("#destination_4").html("") ; 
+     $("#destination_4").html(  accountProperties.sttmnt_des_4 + " ")   ;
+     $("#destination_4").removeClass("missing")
+     var clean = true;
+  }else {
+   if (clean) {$("#destination_4").remove()}
+  }
+  
+   if (accountProperties.sttmnt_des_5) {
+     $("#destination_5").html("") ; 
+     $("#destination_5").html(accountProperties.sttmnt_des_5 + " ")   ;
+     $("#destination_5").removeClass("missing")
+     var clean = true;
+  }else {
+   if (clean) {$("#destination_5").remove()}
+  }
+  
+  
+    // The legal name for this firm for the Statement Subject 
+  if (accountProperties.sttmnt_official_name) {
+     $("#subject").html("") ; 
+     $("#subject").html(accountProperties.sttmnt_official_name)   ;
+     $("#subject").removeClass("missing")
+  }
+ 
+  // The transaction table
+  var tableHtml ="<table>";
   for (var i = 0, len = transactionRows; i < transactionRows; i++) {
       tableHtml  += "<tr>";
       for (var j = 0, len = transactionColumns; j < transactionColumns; j++){
@@ -88,19 +207,93 @@ function showStatementJS(arr){
       } else {
          if (j < 6) {tableHtml +=  transactionsArr[i-2][j]}
       }
-      
-      
-      
       tableHtml  += "<td>"
-  //console.log(i +" "+ j)
-      }
-      tableHtml  += "</tr>"
+    }
+    tableHtml  += "</tr>"
   }
  tableHtml +="</table>"
-  $("#divTable").append(tableHtml);
+ $("#divTable").append(tableHtml);
+ 
+ 
+   //The signature
+   clean= false;
+     if (bookProperties.sttmnt_sign_1) {
+     $("#signature_1").html("") ; 
+     $("#signature_1").html( bookProperties.sttmnt_sign_1 + " ")   ;
+     $("#signature_1").removeClass("missing")
+     var clean = true;
+  } else {
+   if (clean) {$("#signature_1").remove()}
+  }
+  
+  // I'll try to find a solution to insert a signature 
+  // if (bookProperties.sttmnt_sign_2) {
+  //   $("#signature_2").html("") ; 
+  //   $("#signature_2").html( bookProperties.sttmnt_sign_2 + " ")   ;
+  //   $("#signature_2").removeClass("missing")
+  //   var clean = true;
+  //} else {
+  // if (clean) {$("#signature_2").remove()}
+  //}
+  
+   if (bookProperties.sttmnt_sign_3) {
+     $("#signature_3").html("") ; 
+     $("#signature_3").html( bookProperties.sttmnt_sign_3 + " ")   ;
+     $("#signature_3").removeClass("missing")
+     var clean = true;
+  }else {
+   if (clean) {$("#signature_3").remove()}
+  }
+  
+   if (bookProperties.sttmnt_sign_4) {
+     $("#signature_4").html("") ; 
+     $("#signature_4").html( bookProperties.sttmnt_sign_4 + " ")   ;
+     $("#signature_4").removeClass("missing")
+     var clean = true;
+  }else {
+   if (clean) {$("#signature_4").remove()}
+  }
+  
+   if (bookProperties.sttmnt_sign_5) {
+     $("#signature_5").html("") ; 
+     $("#signature_5").html( bookProperties.sttmnt_sign_5 + " ")   ;
+     $("#signature_5").removeClass("missing")
+     var clean = true;
+  }else {
+   if (clean) {$("#signature_5").remove()}
+  }  
 
    
 }
+
+
+ function closeDialog() { window.top.close(); }
+
+
+ function downloadPdf(){
+ var html = document.getElementById('pdf').innerHTML
+ google.script.run.withSuccessHandler(finishDownload)
+  .withFailureHandler(showError)
+  .generatePDF(html);
+ 
+ }
+ 
+ 
+
+function finishDownload (data) {
+    var arr = new Uint8Array(data);
+    var blob = new Blob([arr.buffer], {type: "application/pdf"});
+
+    var obj_url = window.URL.createObjectURL(blob);
+
+    var hiddenLink = document.getElementById("hiddenPDFLink");
+    var date = $("#statementDate").text();
+    var account = $("#subject").text();
+    
+    hiddenLink.setAttribute("href", obj_url);
+    hiddenLink.setAttribute("download", account + "_"+ date+".pdf");
+    hiddenLink.click();
+  }
 
 
 
@@ -109,16 +302,6 @@ function showError(error)
     window.alert(error);
 }
 
-function isEmpty(string) 
-{
-              if(!string)             return true;         
-              if(string == '')        return true;
-              if(string === false)    return true; 
-              if(string === null)     return true; 
-              if(string == undefined) return true;
-              string = string+' '; // check for a bunch of whitespace
-              if('' == (string.replace(/^\s\s*/, '').replace(/\s\s*$/, ''))) return true;       
-              return false;        
-}
+
 </script>
 

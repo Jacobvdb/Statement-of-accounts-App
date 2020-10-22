@@ -2,7 +2,7 @@
 <html>
   <head>
     <base target="_top">
-    
+    <?!= HtmlService.createHtmlOutputFromFile('Googlestyle').getContent(); ?>
     <?!= HtmlService.createHtmlOutputFromFile('Style').getContent(); ?>
   </head>
   <script>
@@ -12,25 +12,75 @@
 
 
 <body>
+<div class="header">
+
+
+
+     <button id="cancelButton">Close</button>
+     <button id="downloadButton" class="action">Generate PDF</button>
+
+</div>
+<hl> </hl>
+
+<div id="pdf">
 <br> 
 <br>
    <div id="logo" class="missing">
-   property: book.statement_logo
+   Book property statement_logo: url
    </div>
    <br>
    <br>
    To:
    <div id="destination">
-   
+     <div id="destination_1" class="missing"> Account property sttmnt_des_1</div>
+     <div id="destination_2" class="missing"> Account property sttmnt_des_2</div>
+     <div id="destination_3" class="missing"> Account property sttmnt_des_3</div>
+     <div id="destination_4" class="missing"> Account property sttmnt_des_4</div>
+     <div id="destination_5" class="missing"> Account property sttmnt_des_5</div>
    </div> 
-
+<br> 
+<br>
+     <div style="display:inline"> <div id="location" class="missing" style="display:inline"> book property statement_city,</div> <div id="statementDate" style="display:inline">date</div></div>
+<br> 
+<br>
+    From:
+    <div id="origin">
+     <div id="origin_1" class="missing"> Book property sttmnt_origin_1</div>
+     <div id="origin_2" class="missing"> Book property sttmnt_origin_2</div>
+     <div id="origin_3" class="missing"> Book property sttmnt_origin_3</div>
+     <div id="origin_4" class="missing"> Book property sttmnt_origin_4</div>
+     <div id="origin_5" class="missing"> Book property sttmnt_origin_5</div>
+   </div> 
+<br> 
+<br>
+     <div style="display:inline"> <div style="display:inline"> Statement of account for:</div><div id="subject" class="missing" style="display:inline">Account property sttmnt_official_name</div> </div>
+<br>
     <div id="divTable">
     
+    </div> 
+<br> 
+<br>
+    <div id="declaration">
+    I have no further observations and I'm happy to answer any related questions.
     </div>
+<br> 
+<br>    
+    <div id="signature">
+     <div id="signature_1" > Kind Regards, </div>
+     <!--<div id="signature_2" class="missing"> Book property sttmnt_sign_2</div>-->
+     <br><br>
+     <div id="signature_3" class="missing"> Book property sttmnt_sign_3</div>
+     <div id="signature_4" class="missing"> Book property sttmnt_sign_4</div>
+     <div id="signature_5" class="missing"> Book property sttmnt_sign_5</div>
+   </div>
     
-   
     
+</div>
+  <a id="hiddenPDFLink"></a>
 </body>
 <?!= HtmlService.createHtmlOutputFromFile('Javascript').getContent(); ?>
 
 </html>
+
+
+
