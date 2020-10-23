@@ -28,6 +28,8 @@ function start() {
         var tempName=name[0]  
         var accountName = tempName.replace(/^:'|'$/g, '');
         console.log(accountName);
+
+        $('.downloadButton').prop('disabled', true);
       
         google.script.run.withSuccessHandler(showStatementJS)
         .withFailureHandler(showError)
@@ -265,7 +267,7 @@ function showStatementJS(arr){
   }else {
    if (clean) {$("#signature_5").remove()}
   }  
-
+  $('.downloadButton').prop('disabled', false);
    
 }
 
