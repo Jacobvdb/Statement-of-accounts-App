@@ -62,8 +62,8 @@ function showStatementJS(arr){
   var transactionRows = transactionsArr.length + 3;
   var transactionColumns = transactionsArr[1].length + 1
   
-  // Logo
-  if (bookProperties.statement_logo) {
+   // Logo
+   if (bookProperties.statement_logo) {
      $("#logo").html("") ; 
      $("#logo").html("<img height='100px' src='data:" + b64 + "'>");
      $("#logo").removeClass("missing")
@@ -184,28 +184,31 @@ function showStatementJS(arr){
   // The transaction table
   var tableHtml ="<table>";
   for (var i = 0, len = transactionRows; i < transactionRows; i++) {
-      tableHtml  += "<tr>";
+      tableHtml  += "<tr style='border-bottom:solid 1px grey'>";
       for (var j = 0, len = transactionColumns; j < transactionColumns; j++){
-        tableHtml  += "<td style='border:solid 0px green'>";
+        tableHtml  += "<td >";
       // initial Balance
       if (i==0){
         if (j==3) {tableHtml  += "Opening Balance on:" }
         if (j==4) {tableHtml  += initialBalanceValueDate }
-        if (j==5){ tableHtml  += initialBalanceValue }
+        if (j==5){ tableHtml  += "<strong>"+ bookProperties.exc_symbol + " " +initialBalanceValue + "</strong>"}
       } else if (i == transactionRows-1){
         if (j==3) {tableHtml  += "Final Balance on:" }
         if (j==4) {tableHtml  += finalBalanceValueDate }
-        if (j==5){ tableHtml  += finalBalanceValue }
+        if (j==5){ tableHtml  += "<strong>"+ bookProperties.exc_symbol + " " + finalBalanceValue  + "</strong>" }
       
       } else if (i ==1) {
-        if (j==0) {tableHtml  += headerArr[j] }
-        if (j==1) {tableHtml  += headerArr[j] }
-        if (j==2) {tableHtml  += headerArr[j] }
-        if (j==3) {tableHtml  += headerArr[j] }
-        if (j==4){ tableHtml  += headerArr[j]  }
-        if (j==5){ tableHtml  += headerArr[j]  } 
+        if (j==0) {tableHtml  += "<strong>"+headerArr[j]+ "</strong>" }
+        if (j==1) {tableHtml  += "<strong>"+headerArr[j]+ "</strong>" }
+        if (j==2) {tableHtml  += "<strong>"+headerArr[j]+ "</strong>" }
+        if (j==3) {tableHtml  += "<strong>"+headerArr[j]+ "</strong>" }
+        if (j==4){ tableHtml  += "<strong>"+headerArr[j]+ "</strong>" }
+        if (j==5){ tableHtml  += "<strong>"+headerArr[j]+ "</strong>" } 
       } else {
-         if (j < 6) {tableHtml +=  transactionsArr[i-2][j]}
+         if (j==3 & transactionsArr[i-2][j] != "") {tableHtml +=  bookProperties.exc_symbol + " " + transactionsArr[i-2][j]}
+         if (j==4 & transactionsArr[i-2][j] != "") {tableHtml +=  bookProperties.exc_symbol + " " + transactionsArr[i-2][j]}
+         if (j==5) {tableHtml +=  bookProperties.exc_symbol + " " + transactionsArr[i-2][j]}
+         if (j < 3) {tableHtml +=  transactionsArr[i-2][j]}
       }
       tableHtml  += "<td>"
     }
@@ -304,4 +307,3 @@ function showError(error)
 
 
 </script>
-
