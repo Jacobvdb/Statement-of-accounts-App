@@ -35,17 +35,18 @@ function getStatementDataGS(bookId, query, accountName){
    // table header   
    var header = transactionDataTable[0]
    var headerArr = [];
-   for (var i = 0, len = header.length; i <= len-1; i++) {
-        var column = header[i];
-        headerArr.push(column) ;
-   }   
+   for (var k = 0; k < header.length; k++) {
+    var column = header[k];
+    headerArr.push(column) ;
+}  
+ 
   
   Logger.log(accountType + " number of rows:" + transactionDataTableReverse.length)
   // transactions table
   var transactionsArr = new Array;
-  for (var i = 0, len = transactionDataTableReverse.length; i <= len-4; i++) {
+  for (var i = 0  ; i < transactionDataTableReverse.length-1; i++) {
          transactionsArr.push( [] );
-         for (var j = 0, len = transactionDataTableReverse[i].length; j < len-1; j++) {
+         for (var j = 0; j < transactionDataTableReverse[i].length; j++) {
          if (j== 0){
                var postDate = book.formatDate(transactionDataTableReverse[i][j])
               transactionsArr[i].push(postDate)
