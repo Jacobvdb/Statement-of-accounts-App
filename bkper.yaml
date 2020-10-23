@@ -43,6 +43,8 @@ properties:
             sttmnt_sign_2
             sttmnt_sign_3
             sttmnt_sign_4 
+            exc_code
+            exc_symbol
     
     account:
         keys: >
