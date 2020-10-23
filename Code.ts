@@ -28,17 +28,17 @@ function getStatementDataGS(bookId, query, accountName){
   var initialBalanceValueDate = book.formatDate(initialBalanceArr[1])
  
   
-   var finalBalanceValueDate = new Date();
-   var finalBalanceValueDate = book.formatDate(finalBalanceValueDate) 
-   var finalBalanceValue = balancesDataTable[0][1]
+  var finalBalanceValueDate = new Date();
+  var finalBalanceValueDate = book.formatDate(finalBalanceValueDate) 
+  var finalBalanceValue = balancesDataTable[0][1]
            
    // table header   
-   var header = transactionDataTable[0]
-   var headerArr = [];
-   for (var k = 0; k < header.length; k++) {
+  var header = transactionDataTable[0]
+  var headerArr = [];
+  for (var k = 0; k < header.length; k++) {
     var column = header[k];
     headerArr.push(column) ;
-}  
+  }  
 
  
   
@@ -47,10 +47,7 @@ function getStatementDataGS(bookId, query, accountName){
   var transactionsArr = new Array;
   for (var i = 0  ; i < transactionDataTableReverse.length-1; i++) {
          transactionsArr.push( [] );
-         Logger.log(i +" " +transactionDataTableReverse[i].length )
-         Logger.log(i +" " +transactionDataTableReverse[i] )
-         for (var j = 0; j < transactionDataTableReverse[i].length; j++) {
-           Logger.log(i + " " + j + " " + transactionDataTableReverse[i][j])
+         for (var j = 0; j < transactionDataTableReverse[i].length-1; j++) {
          if (j== 0){
                var postDate = book.formatDate(transactionDataTableReverse[i][j])
               transactionsArr[i].push(postDate)
