@@ -39,6 +39,7 @@ function getStatementDataGS(bookId, query, accountName){
     var column = header[k];
     headerArr.push(column) ;
 }  
+
  
   
   Logger.log(accountType + " number of rows:" + transactionDataTableReverse.length)
@@ -46,7 +47,10 @@ function getStatementDataGS(bookId, query, accountName){
   var transactionsArr = new Array;
   for (var i = 0  ; i < transactionDataTableReverse.length-1; i++) {
          transactionsArr.push( [] );
+         Logger.log(i +" " +transactionDataTableReverse[i].length )
+         Logger.log(i +" " +transactionDataTableReverse[i] )
          for (var j = 0; j < transactionDataTableReverse[i].length; j++) {
+           Logger.log(i + " " + j + " " + transactionDataTableReverse[i][j])
          if (j== 0){
                var postDate = book.formatDate(transactionDataTableReverse[i][j])
               transactionsArr[i].push(postDate)
